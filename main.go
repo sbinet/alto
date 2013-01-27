@@ -16,10 +16,12 @@ func init() {
 	g_cmd = &commander.Commander{
 		Name: os.Args[0],
 		Commands: []*commander.Command{
+			alto_make_cmd_init(),
 			alto_make_cmd_up(),
 		},
-		Flag: flag.NewFlagSet("hwaf", flag.ExitOnError),
+		Flag: flag.NewFlagSet("alto", flag.ExitOnError),
 		Commanders: []*commander.Commander{
+			alto_make_cmd_box(),
 		},
 	}
 }

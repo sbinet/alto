@@ -12,25 +12,25 @@ import (
 	"github.com/gonuts/flag"
 )
 
-func alto_make_cmd_up() *commander.Command {
+func alto_make_cmd_box_add() *commander.Command {
 	cmd := &commander.Command{
-		Run:       alto_run_cmd_up,
-		UsageLine: "up [options]",
-		Short:     "launch a box on StratusLab",
+		Run:       alto_run_cmd_box_add,
+		UsageLine: "add [options] <box-name> <box-configuration>",
+	Short:     "add a box (VM+pdisk) to the repository of boxes",
 		Long: `
-up launches a box (VM+pdisk) on StratusLab using the configuration from the current directory.
+add adds a box (VM+pdisk) on StratusLab.
 
 ex:
- $ alto up
+ $ alto box add archlinux-64b
 `,
-		Flag: *flag.NewFlagSet("alto-up", flag.ExitOnError),
+		Flag: *flag.NewFlagSet("alto-box-add", flag.ExitOnError),
 		//CustomFlags: true,
 	}
 	cmd.Flag.Bool("q", true, "only print error and warning messages, all other output will be suppressed")
 	return cmd
 }
 
-func alto_run_cmd_up(cmd *commander.Command, args []string) {
+func alto_run_cmd_box_add(cmd *commander.Command, args []string) {
 	var err error
 	n := "alto-" + cmd.Name()
 
