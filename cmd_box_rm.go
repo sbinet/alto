@@ -52,11 +52,6 @@ func alto_run_cmd_box_rm(cmd *commander.Command, args []string) {
 	boxes := g_ctx.Boxes()
 	for _, box := range boxes {
 		switch box_id {
-		case box.Tag:
-			found = true
-			err = g_ctx.RemoveBox(box.Id)
-			handle_err(err)
-			break
 		case box.Id:
 			found = true
 			err = g_ctx.RemoveBox(box.Id)

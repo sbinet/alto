@@ -21,7 +21,6 @@ var (
 
 type Box struct {
 	Id   string
-	Tag  string
 	Vm   Vm
 	Disk Disk
 	Cpus int

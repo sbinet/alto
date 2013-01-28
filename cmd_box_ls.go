@@ -45,7 +45,13 @@ func alto_run_cmd_box_ls(cmd *commander.Command, args []string) {
 
 	boxes := g_ctx.Boxes()
 	for _, box := range boxes {
-		fmt.Printf("%v\n", box)
+		const indent = "    "
+		fmt.Printf(
+			"::: box [%s]\n%s%v\n%s%v\n",
+			box.Id,
+			indent, box.Vm,
+			indent, box.Disk,
+		)
 	}
 
 	if !quiet {

@@ -27,21 +27,15 @@ type Disk struct {
 }
 
 func (d Disk) String() string {
-	lines := []string{":: DISK " + d.Guid}
-	lines = append(lines,
-		fmt.Sprintf("\tcount: %v", d.Count),
-		fmt.Sprintf("\ttag: %v", d.Tag),
-		fmt.Sprintf("\towner: %v", d.Owner),
+	return fmt.Sprintf(
+		"Disk{Guid=%s Id=%s Count=%d Owner=%q Size=%dGb Tag=%q}",
+		d.Guid,
+		d.Id,
+		d.Count,
+		d.Owner,
+		d.Size,
+		d.Tag,
 	)
-	if d.Id != "" {
-		lines = append(lines,
-			fmt.Sprintf("\tidentifier: %v", d.Id),
-		)
-	}
-	lines = append(lines,
-		fmt.Sprintf("\tsize: %v", d.Size),
-	)
-	return strings.Join(lines, "\n")
 }
 
 func DiskList() ([]Disk, error) {

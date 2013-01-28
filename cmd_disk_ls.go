@@ -8,7 +8,7 @@ import (
 	// "os/exec"
 	"path/filepath"
 	// "regexp"
-	// "strings"
+	"strings"
 
 	"github.com/gonuts/commander"
 	"github.com/gonuts/flag"
@@ -53,7 +53,24 @@ func alto_run_cmd_disk_ls(cmd *commander.Command, args []string) {
 
 	disks := g_ctx.Disks()
 	for _, disk := range disks {
-		fmt.Printf("%v\n", disk)
+		printer := func(d altolib.Disk) string {
+			lines := []string{":: DISK " + d.Guid}
+			lines = append(lines,
+				fmt.Sprintf("\tcount: %v", d.Count),
+				fmt.Sprintf("\ttag: %v", d.Tag),
+				fmt.Sprintf("\towner: %v", d.Owner),
+			)
+			if d.Id != "" {
+				lines = append(lines,
+					fmt.Sprintf("\tidentifier: %v", d.Id),
+				)
+			}
+			lines = append(lines,
+				fmt.Sprintf("\tsize: %v", d.Size),
+			)
+			return strings.Join(lines, "\n")
+		}
+		fmt.Printf("%v\n", printer(disk))
 	}
 
 	if !quiet {

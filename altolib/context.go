@@ -238,6 +238,48 @@ func (ctx *Context) RemoveVm(id string) error {
 	return nil
 }
 
+func (ctx *Context) GetVm(id string) (Vm, error) {
+	var err error
+	vm, ok := ctx.vmdb[id]
+	if !ok {
+		err = fmt.Errorf("altolib.context: no such VM [id=%s] in db", id)
+		return Vm{}, err
+	}
+	return vm, nil
+}
+
+// func (ctx *Context) AddDisk(disk Disk) error {
+// 	var err error
+// 	id := disk.Id
+// 	// TODO: check id exists on the market!
+// 	//  --> http://mp.stratuslab.eu/metadata/<id>
+// 	_, ok := ctx.diskdb[id]
+// 	if ok {
+// 		return fmt.Errorf("altolib.context: disk with id=%s already in db", id)
+// 	}
+// 	ctx.diskdb[id] = disk
+// 	return err
+// }
+
+// func (ctx *Context) RemoveDisk(id string) error {
+// 	_, ok := ctx.diskdb[id]
+// 	if !ok {
+// 		return fmt.Errorf("altolib.context: no such disk [id=%s] in db", id)
+// 	}
+// 	delete(ctx.diskdb, id)
+// 	return nil
+// }
+
+func (ctx *Context) GetDisk(id string) (Disk, error) {
+	var err error
+	disk, ok := ctx.diskdb[id]
+	if !ok {
+		err = fmt.Errorf("altolib.context: no such disk [id=%s] in db", id)
+		return Disk{}, err
+	}
+	return disk, nil
+}
+
 func (ctx *Context) AddBox(box Box) error {
 	var err error
 	id := box.Id
