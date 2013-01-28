@@ -7,6 +7,10 @@ import (
 	"runtime"
 )
 
+var (
+	ConfigDirName = os.ExpandEnv("${HOME}/.config/alto")
+)
+
 type Context struct {
 	boxdb  map[string]Box
 	diskdb map[string]Disk
@@ -33,14 +37,21 @@ func NewContext() (*Context, error) {
 func (ctx *Context) init() error {
 	var err error
 
+	if !path_exists(ConfigDirName) {
+		err = os.MkdirAll(ConfigDirName, 0755)
+		if err != nil {
+			return err
+		}
+	}
+
 	// load pdisks
 	if !path_exists(DiskDbFileName) {
 		var f *os.File
 		f, err = os.Create(DiskDbFileName)
-		defer f.Close()
 		if err != nil {
 			return err
 		}
+		defer f.Close()
 		disks := make([]Disk, 0)
 		err = json.NewEncoder(f).Encode(&disks)
 		if err != nil {
@@ -67,10 +78,10 @@ func (ctx *Context) init() error {
 	if !path_exists(VmDbFileName) {
 		var f *os.File
 		f, err = os.Create(VmDbFileName)
-		defer f.Close()
 		if err != nil {
 			return err
 		}
+		defer f.Close()
 		vms := make([]Vm, 0)
 		err = json.NewEncoder(f).Encode(&vms)
 		if err != nil {
@@ -97,10 +108,10 @@ func (ctx *Context) init() error {
 	if !path_exists(BoxDbFileName) {
 		var f *os.File
 		f, err = os.Create(BoxDbFileName)
-		defer f.Close()
 		if err != nil {
 			return err
 		}
+		defer f.Close()
 		boxes := make([]Box, 0)
 		err = json.NewEncoder(f).Encode(&boxes)
 		if err != nil {

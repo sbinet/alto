@@ -1,21 +1,17 @@
 package altolib
 
 import (
-	// "bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
-	// "os/exec"
-	// "regexp"
-	// "strconv"
-	// "strings"
+	"path/filepath"
 )
 
 var (
 	ErrNoVmDb = errors.New("No VM db")
 
-	VmDbFileName = os.ExpandEnv("${HOME}/.config/alto/vms.json")
+	VmDbFileName = filepath.Join(ConfigDirName, "vms.json")
 )
 
 type Vm struct {

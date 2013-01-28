@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"os"
 	"os/exec"
+	"path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
@@ -14,7 +14,7 @@ import (
 var (
 	ErrNoDiskDb = errors.New("No disk db")
 
-	DiskDbFileName = os.ExpandEnv("${HOME}/.config/alto/disks.json")
+	DiskDbFileName = filepath.Join(ConfigDirName, "disks.json")
 )
 
 type Disk struct {

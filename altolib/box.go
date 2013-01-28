@@ -1,22 +1,17 @@
 package altolib
 
 import (
-	// "bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
-	// "os/exec"
 	"path/filepath"
-	// "regexp"
-	// "strconv"
-	// "strings"
 )
 
 var (
 	ErrNoBoxDb = errors.New("No box db")
 
-	BoxDbFileName = os.ExpandEnv("${HOME}/.config/alto/boxes.json")
+	BoxDbFileName = filepath.Join(ConfigDirName, "boxes.json")
 )
 
 type Box struct {
