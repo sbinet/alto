@@ -43,7 +43,7 @@ func alto_run_cmd_vm_ls(cmd *commander.Command, args []string) {
 		fmt.Printf("%s: listing VMs...\n", n)
 	}
 
-	vms := g_ctx.VMs()
+	vms := g_ctx.Vms()
 	for _, vm := range vms {
 		fmt.Printf("%v\n", vm)
 	}

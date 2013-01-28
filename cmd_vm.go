@@ -13,6 +13,7 @@ func alto_make_cmd_vm() *commander.Commander {
 		Commands: []*commander.Command{
 			alto_make_cmd_vm_add(),
 			alto_make_cmd_vm_ls(),
+			alto_make_cmd_vm_rm(),
 		},
 		Flag: flag.NewFlagSet("alto-vm", flag.ExitOnError),
 	}

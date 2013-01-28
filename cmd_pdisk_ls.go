@@ -12,6 +12,7 @@ import (
 
 	"github.com/gonuts/commander"
 	"github.com/gonuts/flag"
+	"github.com/sbinet/alto/altolib"
 )
 
 func alto_make_cmd_pdisk_ls() *commander.Command {
@@ -60,7 +61,7 @@ func alto_run_cmd_pdisk_ls(cmd *commander.Command, args []string) {
 	}
 
 	// refresh cache of pdisks...
-	fname := os.ExpandEnv("${HOME}/.config/alto/disks.json")
+	fname := altolib.DiskDbFileName
 	if path_exists(fname) {
 		err = os.RemoveAll(fname)
 		handle_err(err)

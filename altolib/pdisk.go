@@ -2,11 +2,19 @@ package altolib
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
+	"os"
 	"os/exec"
 	"regexp"
 	"strconv"
 	"strings"
+)
+
+var (
+	ErrNoDiskDb = errors.New("No disk db")
+
+	DiskDbFileName = os.ExpandEnv("${HOME}/.config/alto/disks.json")
 )
 
 type Disk struct {

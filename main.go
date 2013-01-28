@@ -38,6 +38,10 @@ func main() {
 
 	g_ctx, err = altolib.NewContext()
 	handle_err(err)
+	defer func() {
+		err = g_ctx.Sync()
+		handle_err(err)
+	}()
 
 	args := g_cmd.Flag.Args()
 	err = g_cmd.Run(args)
