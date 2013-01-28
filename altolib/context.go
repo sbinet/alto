@@ -83,4 +83,28 @@ func (ctx *Context) init() error {
 	return err
 }
 
+func (ctx *Context) Boxes() []Box {
+	boxes := make([]Box, 0, len(ctx.boxdb))
+	for _, box := range ctx.boxdb {
+		boxes = append(boxes, box)
+	}
+	return boxes
+}
+
+func (ctx *Context) VMs() []Vm {
+	vms := make([]Vm, 0, len(ctx.vmdb))
+	for _, vm := range ctx.vmdb {
+		vms = append(vms, vm)
+	}
+	return vms
+}
+
+func (ctx *Context) Disks() []Disk {
+	disks := make([]Disk, 0, len(ctx.diskdb))
+	for _, disk := range ctx.diskdb {
+		disks = append(disks, disk)
+	}
+	return disks
+}
+
 // EOF
