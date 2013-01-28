@@ -12,6 +12,7 @@ func alto_make_cmd_vm() *commander.Commander {
 		Short: "add/remove/list VMs",
 		Commands: []*commander.Command{
 			alto_make_cmd_vm_add(),
+			alto_make_cmd_vm_ls(),
 		},
 		Flag: flag.NewFlagSet("alto-vm", flag.ExitOnError),
 	}
