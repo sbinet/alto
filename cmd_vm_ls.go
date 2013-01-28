@@ -1,14 +1,7 @@
 package main
 
 import (
-	// "bytes"
-	"encoding/json"
 	"fmt"
-	"os"
-	// "os/exec"
-	"path/filepath"
-	// "regexp"
-	// "strings"
 
 	"github.com/gonuts/commander"
 	"github.com/gonuts/flag"
@@ -51,8 +44,12 @@ func alto_run_cmd_vm_ls(cmd *commander.Command, args []string) {
 	}
 
 	vms := g_ctx.VMs()
-	for _, vm := range vms {
-		fmt.Printf("%v\n", vm)
+	if len(vms) > 0 {
+		for _, vm := range vms {
+			fmt.Printf("%v\n", vm)
+		}
+	} else {
+		fmt.Printf("no vm\n")
 	}
 
 	if !quiet {
