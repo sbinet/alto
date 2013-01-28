@@ -238,4 +238,25 @@ func (ctx *Context) RemoveVm(id string) error {
 	return nil
 }
 
+func (ctx *Context) AddBox(box Box) error {
+	var err error
+	id := box.Id
+	_, ok := ctx.boxdb[id]
+	if ok {
+		return fmt.Errorf("altolib.context: box with id=%s already in db", id)
+	}
+	// TODO: check box.Vm and box.Disk exist in dbs as well
+	ctx.boxdb[id] = box
+	return err
+}
+
+func (ctx *Context) RemoveBox(id string) error {
+	_, ok := ctx.boxdb[id]
+	if !ok {
+		return fmt.Errorf("altolib.context: no such box [id=%s] in db", id)
+	}
+	delete(ctx.boxdb, id)
+	return nil
+}
+
 // EOF
