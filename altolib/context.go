@@ -301,4 +301,14 @@ func (ctx *Context) RemoveBox(id string) error {
 	return nil
 }
 
+func (ctx *Context) GetBox(id string) (Box, error) {
+	var err error
+	box, ok := ctx.boxdb[id]
+	if !ok {
+		err = fmt.Errorf("altolib.context: no such box [id=%s] in db", id)
+		return Box{}, err
+	}
+	return box, nil
+}
+
 // EOF
