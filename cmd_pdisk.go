@@ -12,6 +12,7 @@ func alto_make_cmd_pdisk() *commander.Commander {
 		Short: "add/remove/list persistent disks",
 		Commands: []*commander.Command{
 			alto_make_cmd_pdisk_add(),
+			alto_make_cmd_pdisk_ls(),
 		},
 		Flag: flag.NewFlagSet("alto-pdisk", flag.ExitOnError),
 	}
