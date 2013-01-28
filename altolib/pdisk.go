@@ -22,7 +22,7 @@ func (d Disk) String() string {
 	lines := []string{":: DISK " + d.Guid}
 	lines = append(lines,
 		fmt.Sprintf("\tcount: %v", d.Count),
-		fmt.Sprintf("\tag: %v", d.Tag),
+		fmt.Sprintf("\ttag: %v", d.Tag),
 		fmt.Sprintf("\towner: %v", d.Owner),
 	)
 	if d.Id != "" {

@@ -2,11 +2,11 @@ package main
 
 import (
 	// "bytes"
-	// "encoding/json"
+	"encoding/json"
 	"fmt"
-	// "os"
+	"os"
 	// "os/exec"
-	// "path/filepath"
+	"path/filepath"
 	// "regexp"
 	// "strings"
 
@@ -57,9 +57,29 @@ func alto_run_cmd_pdisk_ls(cmd *commander.Command, args []string) {
 	for _, pdisk := range pdisks {
 		fmt.Printf("%v\n", pdisk)
 	}
+
 	if !quiet {
 		fmt.Printf("%s: listing pdisks... [done]\n", n)
 	}
+
+	// refresh cache of pdisks...
+	fname := os.ExpandEnv("${HOME}/.config/alto/disks.json")
+	if path_exists(fname) {
+		err = os.RemoveAll(fname)
+		handle_err(err)
+	}
+	err = os.MkdirAll(filepath.Dir(fname), 0755)
+	handle_err(err)
+	f, err := os.Create(fname)
+	handle_err(err)
+	defer func() {
+		err = f.Sync()
+		handle_err(err)
+		err = f.Close()
+		handle_err(err)
+	}()
+	err = json.NewEncoder(f).Encode(&pdisks)
+	handle_err(err)
 	return
 }
 
