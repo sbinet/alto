@@ -42,7 +42,7 @@ func alto_run_cmd_vm_add(cmd *commander.Command, args []string) {
 		vm_name = args[0]
 		vm_id = args[1]
 	default:
-		err = fmt.Errorf("%s: does not take any argument\n", n)
+		err = fmt.Errorf("%s: needs 2 arguments (vm-name, vm-id)\n", n)
 		handle_err(err)
 	}
 
