@@ -22,7 +22,9 @@ func alto_make_cmd_box_add() *commander.Command {
 add adds a box (VM+pdisk) on StratusLab.
 
 ex:
+ $ alto box add archlinux-64b my-archlinux-vm    # no disk
  $ alto box add archlinux-64b my-archlinux-vm my-archlinux-disk
+ $ alto box add -cpu=4 -ram=2048 archlinux-64b my-archlinux-vm my-archlinux-disk
 `,
 		Flag: *flag.NewFlagSet("alto-box-add", flag.ExitOnError),
 		//CustomFlags: true,
