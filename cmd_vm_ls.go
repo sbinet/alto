@@ -44,12 +44,8 @@ func alto_run_cmd_vm_ls(cmd *commander.Command, args []string) {
 	}
 
 	vms := g_ctx.VMs()
-	if len(vms) > 0 {
-		for _, vm := range vms {
-			fmt.Printf("%v\n", vm)
-		}
-	} else {
-		fmt.Printf("no vm\n")
+	for _, vm := range vms {
+		fmt.Printf("%v\n", vm)
 	}
 
 	if !quiet {
