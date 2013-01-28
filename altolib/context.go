@@ -216,15 +216,16 @@ func (ctx *Context) Disks() []Disk {
 	return disks
 }
 
-func (ctx *Context) AddVm(name, id string) error {
+func (ctx *Context) AddVm(vm Vm) error {
 	var err error
+	id := vm.Id
 	// TODO: check id exists on the market!
 	//  --> http://mp.stratuslab.eu/metadata/<id>
 	_, ok := ctx.vmdb[id]
 	if ok {
 		return fmt.Errorf("altolib.context: VM with id=%s already in db", id)
 	}
-	ctx.vmdb[id] = Vm{Id: id, Tag: name}
+	ctx.vmdb[id] = vm
 	return err
 }
 

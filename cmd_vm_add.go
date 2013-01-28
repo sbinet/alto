@@ -10,6 +10,7 @@ import (
 
 	"github.com/gonuts/commander"
 	"github.com/gonuts/flag"
+	"github.com/sbinet/alto/altolib"
 )
 
 func alto_make_cmd_vm_add() *commander.Command {
@@ -50,7 +51,7 @@ func alto_run_cmd_vm_add(cmd *commander.Command, args []string) {
 		fmt.Printf("%s: adding VM [%s] to repository...\n", n, vm_name)
 	}
 
-	err = g_ctx.AddVm(vm_name, vm_id)
+	err = g_ctx.AddVm(altolib.Vm{Id: vm_id, Tag: vm_name})
 	handle_err(err)
 
 	if !quiet {
