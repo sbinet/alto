@@ -28,6 +28,8 @@ ex:
 		//CustomFlags: true,
 	}
 	cmd.Flag.Bool("q", true, "only print error and warning messages, all other output will be suppressed")
+	cmd.Flag.Int("cpu", 1, "number of CPUs for the VM")
+	cmd.Flag.Int("ram", 1024, "amount of RAM for the VM (Mb)")
 	return cmd
 }
 
@@ -52,6 +54,8 @@ func alto_run_cmd_box_add(cmd *commander.Command, args []string) {
 	}
 
 	quiet := cmd.Flag.Lookup("q").Value.Get().(bool)
+	cpu := cmd.Flag.Lookup("cpu").Value.Get().(int)
+	ram := cmd.Flag.Lookup("ram").Value.Get().(int)
 
 	if !quiet {
 		fmt.Printf("%s: adding new box [%s]...\n", n, box_id)
@@ -107,6 +111,8 @@ func alto_run_cmd_box_add(cmd *commander.Command, args []string) {
 		Id:   box_id,
 		Vm:   vm,
 		Disk: disk,
+		Ram:  ram,
+		Cpus: cpu,
 	})
 	handle_err(err)
 	if !quiet {
