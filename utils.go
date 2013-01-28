@@ -21,7 +21,9 @@ func path_exists(name string) bool {
 func handle_err(err error) {
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "**error**: %v\n", err.Error())
-		//panic(err.Error())
+		if os.Getenv("ALTO_DEBUG") != "" {
+			panic(err.Error())
+		}
 		os.Exit(1)
 	}
 }

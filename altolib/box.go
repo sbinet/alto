@@ -3,6 +3,7 @@ package altolib
 import (
 	// "bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 	// "os/exec"
@@ -10,6 +11,12 @@ import (
 	// "regexp"
 	// "strconv"
 	// "strings"
+)
+
+var (
+	ErrNoBoxDb = errors.New("No box db")
+
+	BoxDbFileName = os.ExpandEnv("${HOME}/.config/alto/boxes.json")
 )
 
 type Box struct {
@@ -25,13 +32,13 @@ func BoxList() ([]Box, error) {
 	boxes := make([]Box, 0)
 	var err error
 
-	fname := os.ExpandEnv("${HOME}/.config/alto/boxes.json")
+	fname := BoxDbFileName
 	if !path_exists(filepath.Dir(fname)) {
 		err = os.MkdirAll(filepath.Dir(fname), 0755)
 		return nil, err
 	}
 	if !path_exists(fname) {
-		err = fmt.Errorf("altolib.box: no such file [%s]", fname)
+		err = ErrNoBoxDb
 		return nil, err
 	}
 	f, err := os.Open(fname)
@@ -41,6 +48,10 @@ func BoxList() ([]Box, error) {
 	defer f.Close()
 	dec := json.NewDecoder(f)
 	err = dec.Decode(&boxes)
+	if err != nil {
+		err = fmt.Errorf("altolib.box: empty file [%s] ? (got: %v)", fname, err)
+		return nil, err
+	}
 	return boxes, err
 }
 
