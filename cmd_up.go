@@ -2,14 +2,15 @@ package main
 
 import (
 	// "bytes"
-	// "encoding/json"
+	"encoding/json"
 	"fmt"
-	// "os"
-	// "os/exec"
+	"os"
+	"os/exec"
 	// "path/filepath"
 
 	"github.com/gonuts/commander"
 	"github.com/gonuts/flag"
+	"github.com/sbinet/alto/altolib"
 )
 
 func alto_make_cmd_up() *commander.Command {
@@ -42,8 +43,49 @@ func alto_run_cmd_up(cmd *commander.Command, args []string) {
 		handle_err(err)
 	}
 
-	//quiet := cmd.Flag.Lookup("q").Value.Get().(bool)
+	quiet := cmd.Flag.Lookup("q").Value.Get().(bool)
+	if !quiet {
+		fmt.Printf("%s: starting...\n", n)
+	}
 
+	const fname = "AltoFile"
+	if !path_exists(fname) {
+		err = fmt.Errorf("%s: no such file [%s]. did you run 'alto init some-box-name' ?", n, fname)
+		handle_err(err)
+	}
+
+	f, err := os.Open(fname)
+	handle_err(err)
+	defer f.Close()
+
+	var box altolib.Box
+	err = json.NewDecoder(f).Decode(&box)
+	handle_err(err)
+
+	slab_args := []string{
+		fmt.Sprintf("--ram=%d", box.Ram),
+		fmt.Sprintf("--cpu=%d", box.Cpus),
+	}
+	if box.Disk.Guid != "" {
+		slab_args = append(
+			slab_args,
+			fmt.Sprintf("--persistent-disk=%s", box.Disk.Guid),
+		)
+	}
+	slab_args = append(slab_args,
+		"--output=.alto.id",
+		box.Vm.Id,
+	)
+	slab := exec.Command("stratus-run-instance", slab_args...)
+	slab.Stdin = os.Stdin
+	slab.Stdout = os.Stdout
+	slab.Stderr = os.Stderr
+	err = slab.Run()
+	handle_err(err)
+
+	if !quiet {
+		fmt.Printf("%s: starting... [done]\n", n)
+	}
 	return
 }
 
