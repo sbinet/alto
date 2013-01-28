@@ -15,25 +15,25 @@ import (
 	"github.com/sbinet/alto/altolib"
 )
 
-func alto_make_cmd_pdisk_ls() *commander.Command {
+func alto_make_cmd_disk_ls() *commander.Command {
 	cmd := &commander.Command{
-		Run:       alto_run_cmd_pdisk_ls,
+		Run:       alto_run_cmd_disk_ls,
 		UsageLine: "ls [options]",
-		Short:     "list pdisks from the repository of persistent disks",
+		Short:     "list disks from the repository of persistent disks",
 		Long: `
 ls lists the owner's repository of persistent disks from StratusLab.
 
 ex:
- $ alto pdisk ls
+ $ alto disk ls
 `,
-		Flag: *flag.NewFlagSet("alto-pdisk-ls", flag.ExitOnError),
+		Flag: *flag.NewFlagSet("alto-disk-ls", flag.ExitOnError),
 		//CustomFlags: true,
 	}
 	cmd.Flag.Bool("q", true, "only print error and warning messages, all other output will be suppressed")
 	return cmd
 }
 
-func alto_run_cmd_pdisk_ls(cmd *commander.Command, args []string) {
+func alto_run_cmd_disk_ls(cmd *commander.Command, args []string) {
 	var err error
 	n := "alto-" + cmd.Name()
 
@@ -48,19 +48,19 @@ func alto_run_cmd_pdisk_ls(cmd *commander.Command, args []string) {
 	quiet := cmd.Flag.Lookup("q").Value.Get().(bool)
 
 	if !quiet {
-		fmt.Printf("%s: listing pdisks...\n", n)
+		fmt.Printf("%s: listing disks...\n", n)
 	}
 
-	pdisks := g_ctx.Disks()
-	for _, pdisk := range pdisks {
-		fmt.Printf("%v\n", pdisk)
+	disks := g_ctx.Disks()
+	for _, disk := range disks {
+		fmt.Printf("%v\n", disk)
 	}
 
 	if !quiet {
-		fmt.Printf("%s: listing pdisks... [done]\n", n)
+		fmt.Printf("%s: listing disks... [done]\n", n)
 	}
 
-	// refresh cache of pdisks...
+	// refresh cache of disks...
 	fname := altolib.DiskDbFileName
 	if path_exists(fname) {
 		err = os.RemoveAll(fname)
@@ -76,7 +76,7 @@ func alto_run_cmd_pdisk_ls(cmd *commander.Command, args []string) {
 		err = f.Close()
 		handle_err(err)
 	}()
-	err = json.NewEncoder(f).Encode(&pdisks)
+	err = json.NewEncoder(f).Encode(&disks)
 	handle_err(err)
 	return
 }

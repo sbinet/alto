@@ -12,25 +12,25 @@ import (
 	"github.com/gonuts/flag"
 )
 
-func alto_make_cmd_pdisk_add() *commander.Command {
+func alto_make_cmd_disk_add() *commander.Command {
 	cmd := &commander.Command{
-		Run:       alto_run_cmd_pdisk_add,
-		UsageLine: "add [options] <pdisk-name> <pdisk-configuration>",
-	Short:     "add a pdisk to the repository of persistent disks",
+		Run:       alto_run_cmd_disk_add,
+		UsageLine: "add [options] <disk-name> <disk-configuration>",
+		Short:     "add a disk to the repository of persistent disks",
 		Long: `
 add adds a persistent disk on StratusLab.
 
 ex:
- $ alto vm pdisk archlinux-64b-data
+ $ alto disk add archlinux-64b-data
 `,
-		Flag: *flag.NewFlagSet("alto-pdisk-add", flag.ExitOnError),
+		Flag: *flag.NewFlagSet("alto-disk-add", flag.ExitOnError),
 		//CustomFlags: true,
 	}
 	cmd.Flag.Bool("q", true, "only print error and warning messages, all other output will be suppressed")
 	return cmd
 }
 
-func alto_run_cmd_pdisk_add(cmd *commander.Command, args []string) {
+func alto_run_cmd_disk_add(cmd *commander.Command, args []string) {
 	var err error
 	n := "alto-" + cmd.Name()
 

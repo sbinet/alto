@@ -24,7 +24,7 @@ func init() {
 		Flag: flag.NewFlagSet("alto", flag.ExitOnError),
 		Commanders: []*commander.Commander{
 			alto_make_cmd_box(),
-			alto_make_cmd_pdisk(),
+			alto_make_cmd_disk(),
 			alto_make_cmd_vm(),
 		},
 	}
