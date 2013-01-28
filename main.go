@@ -8,9 +8,11 @@ import (
 
 	"github.com/gonuts/commander"
 	"github.com/gonuts/flag"
+	"github.com/sbinet/alto/altolib"
 )
 
 var g_cmd *commander.Commander
+var g_ctx *altolib.Context
 
 func init() {
 	g_cmd = &commander.Commander{
@@ -32,6 +34,9 @@ func main() {
 
 	var err error
 	err = g_cmd.Flag.Parse(os.Args[1:])
+	handle_err(err)
+
+	g_ctx, err = altolib.NewContext()
 	handle_err(err)
 
 	args := g_cmd.Flag.Args()

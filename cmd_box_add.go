@@ -15,13 +15,13 @@ import (
 func alto_make_cmd_box_add() *commander.Command {
 	cmd := &commander.Command{
 		Run:       alto_run_cmd_box_add,
-		UsageLine: "add [options] <box-name> <box-configuration>",
-	Short:     "add a box (VM+pdisk) to the repository of boxes",
+		UsageLine: "add [options] <box-name> <vm-name> [<pdisk-name>]",
+		Short:     "add a box (VM+pdisk) to the repository of boxes",
 		Long: `
 add adds a box (VM+pdisk) on StratusLab.
 
 ex:
- $ alto box add archlinux-64b
+ $ alto box add archlinux-64b my-archlinux-vm my-archlinux-disk
 `,
 		Flag: *flag.NewFlagSet("alto-box-add", flag.ExitOnError),
 		//CustomFlags: true,
@@ -34,16 +34,32 @@ func alto_run_cmd_box_add(cmd *commander.Command, args []string) {
 	var err error
 	n := "alto-" + cmd.Name()
 
+	box := ""
+	vm := ""
+	disk := ""
 	switch len(args) {
-	case 0:
-		// ok
+	case 2:
+		box = args[0]
+		vm = args[1]
+	case 3:
+		box = args[0]
+		vm = args[1]
+		disk = args[2]
 	default:
-		err = fmt.Errorf("%s: does not take any argument\n", n)
+		err = fmt.Errorf("%s: takes at least 2 arguments\n", n)
 		handle_err(err)
 	}
 
-	//quiet := cmd.Flag.Lookup("q").Value.Get().(bool)
+	quiet := cmd.Flag.Lookup("q").Value.Get().(bool)
 
+	if !quiet {
+		fmt.Printf("%s: adding new box [%s]...\n", n, box)
+	}
+
+	fmt.Printf(">>> box=%q vm=%q disk=%q\n", box, vm, disk)
+	if !quiet {
+		fmt.Printf("%s: adding new box [%s]... [done]\n", n, box)
+	}
 	return
 }
 
