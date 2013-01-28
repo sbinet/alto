@@ -47,8 +47,8 @@ func alto_run_cmd_box_ls(cmd *commander.Command, args []string) {
 	for _, box := range boxes {
 		const indent = "    "
 		fmt.Printf(
-			"::: box [%s]\n%s%v\n%s%v\n",
-			box.Id,
+			"::: box [%s] (cpus=%d ram=%dMb)\n%s%v\n%s%v\n",
+			box.Id, box.Cpus, box.Ram,
 			indent, box.Vm,
 			indent, box.Disk,
 		)
