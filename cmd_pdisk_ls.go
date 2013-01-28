@@ -12,7 +12,6 @@ import (
 
 	"github.com/gonuts/commander"
 	"github.com/gonuts/flag"
-	"github.com/sbinet/alto/altolib"
 )
 
 func alto_make_cmd_pdisk_ls() *commander.Command {
@@ -51,9 +50,7 @@ func alto_run_cmd_pdisk_ls(cmd *commander.Command, args []string) {
 		fmt.Printf("%s: listing pdisks...\n", n)
 	}
 
-	pdisks, err := altolib.DiskList()
-	handle_err(err)
-
+	pdisks := g_ctx.Disks()
 	for _, pdisk := range pdisks {
 		fmt.Printf("%v\n", pdisk)
 	}
