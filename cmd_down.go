@@ -28,6 +28,7 @@ ex:
 		//CustomFlags: true,
 	}
 	cmd.Flag.Bool("q", true, "only print error and warning messages, all other output will be suppressed")
+	cmd.Flag.Bool("kill", false, "kill the box")
 	return cmd
 }
 
@@ -44,6 +45,8 @@ func alto_run_cmd_down(cmd *commander.Command, args []string) {
 	}
 
 	quiet := cmd.Flag.Lookup("q").Value.Get().(bool)
+	do_kill := cmd.Flag.Lookup("kill").Value.Get().(bool)
+
 	if !quiet {
 		fmt.Printf("%s: shutting down...\n", n)
 	}
@@ -65,11 +68,19 @@ func alto_run_cmd_down(cmd *commander.Command, args []string) {
 
 	id := bytes.Trim(data, " \r\n")
 
-	ssh := exec.Command("stratus-shutdown-instance", string(id))
+	cmd_name := "stratus-shutdown-instance"
+	if do_kill {
+		cmd_name = "stratus-kill-instance"
+	}
+
+	ssh := exec.Command(cmd_name, string(id))
 	ssh.Stdin = os.Stdin
 	ssh.Stdout = os.Stdout
 	ssh.Stderr = os.Stderr
 	err = ssh.Run()
+	handle_err(err)
+
+	err = os.Remove(id_fname)
 	handle_err(err)
 
 	if !quiet {
