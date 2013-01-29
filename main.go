@@ -18,6 +18,7 @@ func init() {
 	g_cmd = &commander.Commander{
 		Name: os.Args[0],
 		Commands: []*commander.Command{
+			alto_make_cmd_down(),
 			alto_make_cmd_init(),
 			alto_make_cmd_ssh(),
 			alto_make_cmd_up(),
