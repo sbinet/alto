@@ -1,9 +1,10 @@
 package main
 
 import (
-	// "bytes"
+	"bytes"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"os/exec"
 	// "path/filepath"
@@ -62,6 +63,17 @@ func alto_run_cmd_up(cmd *commander.Command, args []string) {
 	err = json.NewDecoder(f).Decode(&box)
 	handle_err(err)
 
+	const id_fname = ".alto.id"
+	if path_exists(id_fname) {
+		data, err := ioutil.ReadFile(id_fname)
+		handle_err(err)
+
+		id := string(bytes.Trim(data, " \r\n"))
+
+		err = fmt.Errorf("%s: the box [%s] has already been instantiated (run-id=%s)", n, box.Id, id)
+		handle_err(err)
+	}
+
 	slab_args := []string{
 		fmt.Sprintf("--ram=%d", box.Ram),
 		fmt.Sprintf("--cpu=%d", box.Cpus),
@@ -73,7 +85,7 @@ func alto_run_cmd_up(cmd *commander.Command, args []string) {
 		)
 	}
 	slab_args = append(slab_args,
-		"--output=.alto.id",
+		"--output="+id_fname,
 		box.Vm.Id,
 	)
 	slab := exec.Command("stratus-run-instance", slab_args...)
