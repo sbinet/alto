@@ -28,7 +28,7 @@ ex:
 		//CustomFlags: true,
 	}
 	cmd.Flag.Bool("q", true, "only print error and warning messages, all other output will be suppressed")
-	cmd.Flag.Bool("kill", false, "kill the box")
+	cmd.Flag.Bool("kill", true, "kill the box")
 	return cmd
 }
 
