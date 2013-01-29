@@ -57,3 +57,69 @@ $ alto ssh
 # shutdown instance
 $ alto down
 ```
+
+## Documentation
+
+Well... it's embedded:
+
+```sh
+$ alto help
+Usage:
+
+	alto command [arguments]
+
+The commands are:
+
+    down        shutdown a (running) box on StratusLab
+    init        create a box on StratusLab
+    ssh         connect to a (running) box on StratusLab
+    status      display the status of a box on StratusLab
+    up          launch a box on StratusLab
+
+    box         add/remove/edit boxes
+    disk        add/remove/list persistent disks
+    vm          add/remove/list VMs
+
+Use "alto help [command]" for more information about a command.
+
+Additional help topics:
+
+
+Use "alto help [topic]" for more information about that topic.
+
+
+$ alto help box
+Usage:
+
+	box command [arguments]
+
+The commands are:
+
+    add         add a box (VM+pdisk) to the repository of boxes
+    ls          list boxes from the repository of boxes
+    rm          rm a box from the repository of boxes
+
+
+Use "box help [command]" for more information about a command.
+
+Additional help topics:
+
+
+Use "box help [topic]" for more information about that topic.
+
+$ alto box help add
+Usage: box add [options] <box-name> <vm-name> [<pdisk-name>]
+
+add adds a box (VM+pdisk) on StratusLab.
+
+ex:
+ $ alto box add archlinux-64b my-archlinux-vm    # no disk
+ $ alto box add archlinux-64b my-archlinux-vm my-archlinux-disk
+ $ alto box add -cpu=4 -ram=2048 archlinux-64b my-archlinux-vm my-archlinux-disk
+
+options:
+  -cpu=1: number of CPUs for the VM
+  -q=true: only print error and warning messages, all other output will be suppressed
+  -ram=1024: amount of RAM for the VM (Mb)
+
+```
