@@ -21,6 +21,7 @@ func init() {
 			alto_make_cmd_down(),
 			alto_make_cmd_init(),
 			alto_make_cmd_ssh(),
+			alto_make_cmd_status(),
 			alto_make_cmd_up(),
 		},
 		Flag: flag.NewFlagSet("alto", flag.ExitOnError),
