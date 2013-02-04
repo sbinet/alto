@@ -77,6 +77,7 @@ func alto_run_cmd_up(cmd *commander.Command, args []string) {
 	slab_args := []string{
 		fmt.Sprintf("--ram=%d", box.Ram),
 		fmt.Sprintf("--cpu=%d", box.Cpus),
+		fmt.Sprintf("--vm-name=%s-%d", box.Id, os.Getpid()),
 	}
 	if box.Disk.Guid != "" {
 		slab_args = append(
