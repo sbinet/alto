@@ -28,7 +28,7 @@ func NewContext() (*Context, error) {
 	}
 	err = ctx.init()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("altolib.init: %v", err)
 	}
 	runtime.SetFinalizer(ctx, (*Context).sync_fs)
 	return ctx, err
@@ -40,7 +40,10 @@ func (ctx *Context) init() error {
 	if !path_exists(ConfigDirName) {
 		err = os.MkdirAll(ConfigDirName, 0755)
 		if err != nil {
-			return err
+			return fmt.Errorf(
+				"altolib: could not make directory [%s] (%v)",
+				ConfigDirName, err,
+			)
 		}
 	}
 
@@ -49,26 +52,41 @@ func (ctx *Context) init() error {
 		var f *os.File
 		f, err = os.Create(DiskDbFileName)
 		if err != nil {
-			return err
+			return fmt.Errorf(
+				"altolib: could not create file [%s] (%v)",
+				DiskDbFileName, err,
+			)
 		}
-		defer f.Close()
+		//defer f.Close()
 		disks := make([]Disk, 0)
 		err = json.NewEncoder(f).Encode(&disks)
 		if err != nil {
-			return err
+			return fmt.Errorf(
+				"altolib: could not encode into file [%s] (%v)",
+				DiskDbFileName, err,
+			)
 		}
 		err = f.Sync()
 		if err != nil {
-			return err
+			return fmt.Errorf(
+				"altolib: could not sync file [%s] (%v)",
+				DiskDbFileName, err,
+			)
 		}
 		err = f.Close()
 		if err != nil {
-			return err
+			return fmt.Errorf(
+				"altolib: could not close file [%s] (%v)",
+				DiskDbFileName, err,
+			)
 		}
 	}
 	disks, err := DiskList()
 	if err != nil {
-		return err
+		return fmt.Errorf(
+			"altolib: could not fetch disk-list (%v)",
+			err,
+		)
 	}
 	for _, disk := range disks {
 		ctx.diskdb[disk.Guid] = disk
@@ -79,26 +97,41 @@ func (ctx *Context) init() error {
 		var f *os.File
 		f, err = os.Create(VmDbFileName)
 		if err != nil {
-			return err
+			return fmt.Errorf(
+				"altolib: could not create file [%s] (%v)",
+				VmDbFileName, err,
+			)
 		}
-		defer f.Close()
+		//defer f.Close()
 		vms := make([]Vm, 0)
 		err = json.NewEncoder(f).Encode(&vms)
 		if err != nil {
-			return err
+			return fmt.Errorf(
+				"altolib: could not encode into file [%s] (%v)",
+				VmDbFileName, err,
+			)
 		}
 		err = f.Sync()
 		if err != nil {
-			return err
+			return fmt.Errorf(
+				"altolib: could not sync file [%s] (%v)",
+				VmDbFileName, err,
+			)
 		}
 		err = f.Close()
 		if err != nil {
-			return err
+			return fmt.Errorf(
+				"altolib: could not close file [%s] (%v)",
+				VmDbFileName, err,
+			)
 		}
 	}
 	vms, err := VmList()
 	if err != nil {
-		return err
+		return fmt.Errorf(
+			"altolib: could not fetch vm-list (%v)",
+			err,
+		)
 	}
 	for _, vm := range vms {
 		ctx.vmdb[vm.Id] = vm
@@ -109,27 +142,42 @@ func (ctx *Context) init() error {
 		var f *os.File
 		f, err = os.Create(BoxDbFileName)
 		if err != nil {
-			return err
+			return fmt.Errorf(
+				"altolib: could not create file [%s] (%v)",
+				BoxDbFileName, err,
+			)
 		}
-		defer f.Close()
+		//defer f.Close()
 		boxes := make([]Box, 0)
 		err = json.NewEncoder(f).Encode(&boxes)
 		if err != nil {
-			return err
+			return fmt.Errorf(
+				"altolib: could not encode into file [%s] (%v)",
+				BoxDbFileName, err,
+			)
 		}
 		err = f.Sync()
 		if err != nil {
-			return err
+			return fmt.Errorf(
+				"altolib: could not sync file [%s] (%v)",
+				BoxDbFileName, err,
+			)
 		}
 		err = f.Close()
 		if err != nil {
-			return err
+			return fmt.Errorf(
+				"altolib: could not close file [%s] (%v)",
+				BoxDbFileName, err,
+			)
 		}
 	}
 	boxes, err := BoxList()
 	if err != nil {
 		if err != nil {
-			return err
+			return fmt.Errorf(
+				"altolib: could not fetch box-list (%v)",
+				err,
+			)
 		}
 	}
 	for _, box := range boxes {
