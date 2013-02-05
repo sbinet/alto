@@ -45,14 +45,14 @@ func DiskList() ([]Disk, error) {
 	slab := exec.Command("stratus-describe-volumes")
 	out, err := slab.Output()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("altolib.disk: failed to run stratus-describe-volumes: %v", err)
 	}
 	pdisks_data := bytes.Split(out, []byte(":: DISK "))
 	pdisks = make([]Disk, 0, len(pdisks_data))
-	re_pat, err := regexp.Compile(`(?P<tag>.*?): (?P<value>.*)`)
-	if err != nil {
-		return nil, err
-	}
+	re_pat := regexp.MustCompile(`(?P<tag>.*?): (?P<value>.*)`)
+	// if err != nil {
+	// 	return nil, err
+	// }
 	for _, data := range pdisks_data {
 		if bytes.Equal(data, []byte("")) {
 			continue
